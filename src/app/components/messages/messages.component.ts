@@ -8,6 +8,7 @@ import {
   Dialog,
 } from 'src/app/services/messages.service';
 import { UpdateService } from 'src/app/services/update.service';
+import { AnswersService, Answer } from 'src/app/services/answers.service';
 
 @Component({
   selector: 'app-messages',
@@ -19,7 +20,8 @@ export class MessagesComponent implements OnInit {
     private route: ActivatedRoute,
     private messagesService: MessagesService,
     private router: Router,
-    private updateService: UpdateService
+    private updateService: UpdateService,
+    private answerService: AnswersService
   ) {}
 
   form: FormGroup;
@@ -59,6 +61,10 @@ export class MessagesComponent implements OnInit {
   }
 
   submit() {
+    if (!this.form.value.message) {
+      console.log(this.form.value.message);
+      return;
+    }
     const message: Dialog = {
       value: this.form.value.message,
       date: new Date(),
@@ -72,8 +78,25 @@ export class MessagesComponent implements OnInit {
         this.form.reset();
       });
 
-    this.user.lastmessage = message.value;
-    this.user.date = message.date;
+    this.updateContact();
+    this.answer();
+  }
+
+  answer() {
+    this.answerService.randonJoke().subscribe((res: Answer) => {
+      const answer: Dialog = {
+        value: res.value,
+        date: new Date(),
+        isoutput: false,
+      };
+      this.dialog.push(answer);
+      this.updateContact();
+    });
+  }
+
+  updateContact() {
+    this.user.lastmessage = this.dialog[this.dialog.length - 1].value;
+    this.user.date = this.dialog[this.dialog.length - 1].date;
 
     this.messagesService.putToUser(this.user.id, this.user).subscribe(() => {
       this.updateService.subj$.next();
