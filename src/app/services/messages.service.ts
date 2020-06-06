@@ -9,12 +9,12 @@ export interface User {
   logname: string;
   lastmessage?: string;
   id?: string;
-  date?: string;
+  date?: Date;
 }
 
 export interface Dialog {
   value: string;
-  isoutput: boolean;
+  isoutput?: boolean;
   date: Date;
 }
 
@@ -25,12 +25,20 @@ export class MessagesService {
   constructor(private http: HttpClient) {}
   static url = 'https://reenbit-test-task.firebaseio.com';
 
-  getUser() {
+  getUser(logname: string = '') {
     return this.http.get(`${MessagesService.url}/users.json`).pipe(
       map((user) => {
-        return Object.keys(user).map((key) => {
-          return { ...user[key], id: key };
-        });
+        return Object.keys(user)
+          .map((key) => {
+            return { ...user[key], id: key };
+          })
+          .filter((user) => {
+            if (logname.trim() === '') {
+              return user;
+            } else {
+              return user.logname === logname;
+            }
+          });
       })
     );
   }

@@ -3,7 +3,11 @@
     <div class="chats-user">
       <div class="user-avatar avatar--wrapper">
         <div class="user-avatar-img avatar">
-          <img class="avatar-img" [src]="img" alt="Avatar" />
+          <img
+            class="avatar-img"
+            src="https://pickaface.net/gallery/avatar/20151205_194059_2696_Chat.png"
+            alt="Avatar"
+          />
         </div>
         <span class="status" [ngStyle]="{ 'background-color': 'green' }">
           <svg
@@ -82,14 +86,13 @@
         <div class="contant-desription">
           <div class="contant-desription-name-date">
             <h2>{{ user.name }}</h2>
-            <p>date</p>
+            <p>{{ user.date | date: "mediumDate" || "" }}</p>
           </div>
           <p class="contant-desription-message">
-            a
+            {{ user.lastmessage || "" }}
           </p>
         </div>
       </div>
-      <!-- <p>{{ user[0].date | date: "short" }}</p> -->
       <br />
       <br />
       <br />

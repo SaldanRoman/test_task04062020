@@ -2,7 +2,7 @@
   <div class="messages-contact">
     <div class="messages-contact-avatar avatar--wrapper">
       <div class="messages-contact-avatar-img avatar">
-        <img class="avatar-img" [src]="img" alt="Avatar" />
+        <img class="avatar-img" [src]="user.avatarurl" alt="Avatar" />
         <span class="status" [ngStyle]="{ 'background-color': 'green' }">
           <svg
             width="20"
@@ -24,28 +24,36 @@
       </div>
     </div>
     <div>
-      <h1 class="messages-contact-name">Name</h1>
+      <h1 class="messages-contact-name">{{ user.name }}</h1>
     </div>
   </div>
 
   <div class="messages-dialog">
     <div
       class="dialog"
-      *ngFor="let dialog of dialogs"
+      *ngFor="let dialog of dialog"
       [ngStyle]="{
-        'justify-content': dialog.isOutput ? 'flex-end' : 'flex-start'
+        'justify-content': dialog.isoutput == true ? 'flex-end' : 'flex-start'
       }"
     >
-      <div class="dialog-avatar avatar--wrapper" *ngIf="!dialog.isOutput">
+      <div
+        class="dialog-avatar avatar--wrapper"
+        *ngIf="!dialog.isoutput == true"
+      >
         <div class="dialog-avatar-img avatar">
-          <img class="avatar-img" [src]="img" alt="Avatar" />
+          <img class="avatar-img" [src]="user.avatarurl" alt="Avatar" />
         </div>
       </div>
       <div
         class="dialog-text"
-        [ngStyle]="{ 'text-align': dialog.isOutput ? 'right' : 'left' }"
+        [ngStyle]="{ 'text-align': dialog.isoutput == true ? 'right' : 'left' }"
       >
-        <p [ngClass]="{ 'out': dialog.isOutput, 'in': !dialog.isOutput }">
+        <p
+          [ngClass]="{
+            out: dialog.isoutput == true,
+            in: !dialog.isoutput == true
+          }"
+        >
           {{ dialog.value }}
         </p>
         <small class="dialog-date">{{ dialog.date | date: "short" }}</small>
