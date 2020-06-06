@@ -1,0 +1,121 @@
+.messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.messages-contact {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--background-color);
+}
+
+.messages-contact-name {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-left: 15px;
+}
+
+.messages-dialog {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.dialog {
+    display: flex;
+    padding: 5px 0;
+}
+
+.dialog-text {
+    padding: 0 10px;
+    max-width: 60%;
+}
+
+.dialog-text p{
+    border-radius: 40px;
+    padding: 10px;
+}
+
+.dialog-text p.in {
+    background-color: #3C4154;
+    color: #FFF;
+}
+
+.dialog-text p.out{
+    background-color: #E0E0E0;
+    color: #5E5E5E;
+}
+
+.dialog-date {
+    padding: 10px;
+    color: var(--main-text-color)
+}
+
+.messages-form {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    background-color: var(--background-color);
+}
+
+.messages-form form {
+    width: 85%;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 40px;
+}
+
+.messages-form form input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: var(--main-text-color);
+}
+
+.messages-form button {
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.messages-form svg {
+    color: #7a7a7a;
+}
+.messages-form svg:hover {
+    color: #3d3d3d;
+}
+
+.messages-dialog::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.messages-dialog::-webkit-scrollbar {
+    width: 5px;
+}
+
+.messages-dialog::-webkit-scrollbar-thumb {
+    background-color: transparent;
+
+}
+
+.messages-dialog:hover.messages-dialog::-webkit-scrollbar-track {
+    background-color: #d3d3d3;    
+}
+
+.messages-dialog:hover.messages-dialog::-webkit-scrollbar-thumb {
+    background-color: #919191;
+}
