@@ -7,7 +7,6 @@ import {
   User,
   Dialog,
 } from 'src/app/services/messages.service';
-import { UpdateService } from 'src/app/services/update.service';
 import { AnswersService, Answer } from 'src/app/services/answers.service';
 
 @Component({
@@ -20,7 +19,6 @@ export class MessagesComponent implements OnInit {
     private route: ActivatedRoute,
     private messagesService: MessagesService,
     private router: Router,
-    private updateService: UpdateService,
     private answerService: AnswersService
   ) {}
 
@@ -71,15 +69,10 @@ export class MessagesComponent implements OnInit {
       isoutput: true,
     };
     this.dialog.push(message);
-
-    this.messagesService
-      .putToDialogs(this.user.id, this.dialog)
-      .subscribe(() => {
-        this.form.reset();
-      });
-
+    this.updateDialog();
     this.updateContact();
     this.answer();
+    this.form.reset();
   }
 
   answer() {
@@ -90,8 +83,15 @@ export class MessagesComponent implements OnInit {
         isoutput: false,
       };
       this.dialog.push(answer);
+      this.updateDialog();
       this.updateContact();
     });
+  }
+
+  updateDialog() {
+    this.messagesService
+      .putToDialogs(this.user.id, this.dialog)
+      .subscribe(() => {});
   }
 
   updateContact() {
@@ -99,7 +99,7 @@ export class MessagesComponent implements OnInit {
     this.user.date = this.dialog[this.dialog.length - 1].date;
 
     this.messagesService.putToUser(this.user.id, this.user).subscribe(() => {
-      this.updateService.subj$.next();
+      this.messagesService.subj$.next();
     });
   }
 }

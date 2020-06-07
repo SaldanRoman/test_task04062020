@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessagesService, User } from './services/messages.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UpdateService } from './services/update.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -15,23 +13,40 @@ export class AppComponent implements OnInit {
   form: FormGroup;
   users: Array<User> = [];
   sub$: Subscription;
-  counter = 1;
-  constructor(
-    private messageService: MessagesService,
-    private updateService: UpdateService
-  ) {}
+
+  constructor(private messageService: MessagesService) {}
+
+  getContacts() {
+    this.messageService.getUser().subscribe((res) => {
+      this.users = res;
+    });
+  }
+
   ngOnInit(): void {
-    this.sub$ = this.updateService.subj$
+    this.getContacts();
+
+    this.sub$ = this.messageService.subj$
       .pipe(switchMap(() => this.messageService.getUser()))
       .subscribe((res) => {
         this.users = res;
       });
-    this.messageService.getUser().subscribe((res) => {
-      this.users = res;
-    });
 
     this.form = new FormGroup({
       search: new FormControl(''),
+    });
+
+    this.form.valueChanges.subscribe((snap) => {
+      if (!snap.search.trim()) {
+        this.getContacts();
+      } else {
+        this.users = this.users.filter((contact: User) => {
+          return (
+            contact.name
+              .toLocaleLowerCase()
+              .indexOf(snap.search.toLowerCase().trim()) !== -1
+          );
+        });
+      }
     });
   }
 }

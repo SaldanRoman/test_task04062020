@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 
 export interface User {
   avatarurl: string;
@@ -23,6 +23,7 @@ export interface Dialog {
 })
 export class MessagesService {
   constructor(private http: HttpClient) {}
+  subj$ = new Subject();
   static url = 'https://reenbit-test-task.firebaseio.com';
 
   getUser(logname: string = '') {
