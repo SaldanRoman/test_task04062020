@@ -11,20 +11,16 @@ import { switchMap } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
   form: FormGroup;
+  search = '';
   users: Array<User> = [];
   sub$: Subscription;
 
   constructor(private messageService: MessagesService) {}
 
-  getContacts() {
+  ngOnInit(): void {
     this.messageService.getUser().subscribe((res) => {
       this.users = res;
     });
-  }
-
-  ngOnInit(): void {
-    this.getContacts();
-
     this.sub$ = this.messageService.subj$
       .pipe(switchMap(() => this.messageService.getUser()))
       .subscribe((res) => {
@@ -33,20 +29,6 @@ export class AppComponent implements OnInit {
 
     this.form = new FormGroup({
       search: new FormControl(''),
-    });
-
-    this.form.valueChanges.subscribe((snap) => {
-      if (!snap.search.trim()) {
-        this.getContacts();
-      } else {
-        this.users = this.users.filter((contact: User) => {
-          return (
-            contact.name
-              .toLocaleLowerCase()
-              .indexOf(snap.search.toLowerCase().trim()) !== -1
-          );
-        });
-      }
     });
   }
 }

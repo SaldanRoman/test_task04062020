@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -15,13 +15,7 @@ import { AnswersService, Answer } from 'src/app/services/answers.service';
   styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private messagesService: MessagesService,
-    private router: Router,
-    private answerService: AnswersService
-  ) {}
-
+  @ViewChild('messagesDialogScroll', { static: true }) scrollFrame: ElementRef;
   form: FormGroup;
   dialog: Dialog[] = [];
   user: User = {
@@ -29,6 +23,13 @@ export class MessagesComponent implements OnInit {
     avatarurl: '',
     logname: '',
   };
+
+  constructor(
+    private route: ActivatedRoute,
+    private messagesService: MessagesService,
+    private router: Router,
+    private answerService: AnswersService
+  ) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -53,6 +54,9 @@ export class MessagesComponent implements OnInit {
               this.dialog = [];
             } else {
               this.dialog = res;
+              setTimeout(() => {
+                this.scrollToBottom();
+              }, 10);
             }
           });
       });
@@ -60,7 +64,6 @@ export class MessagesComponent implements OnInit {
 
   submit() {
     if (!this.form.value.message) {
-      console.log(this.form.value.message);
       return;
     }
     const message: Dialog = {
@@ -85,13 +88,16 @@ export class MessagesComponent implements OnInit {
       this.dialog.push(answer);
       this.updateDialog();
       this.updateContact();
+      this.scrollToBottom();
     });
   }
 
   updateDialog() {
     this.messagesService
       .putToDialogs(this.user.id, this.dialog)
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.scrollToBottom();
+      });
   }
 
   updateContact() {
@@ -101,5 +107,12 @@ export class MessagesComponent implements OnInit {
     this.messagesService.putToUser(this.user.id, this.user).subscribe(() => {
       this.messagesService.subj$.next();
     });
+  }
+
+  scrollToBottom() {
+    let scrollHeightOfDialogs = Array.from(
+      this.scrollFrame.nativeElement.children
+    ).reduce((acc, elm: any) => acc + elm.scrollHeight, 0);
+    this.scrollFrame.nativeElement.scrollTop = scrollHeightOfDialogs;
   }
 }
