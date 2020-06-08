@@ -91,7 +91,7 @@
         <div class="contant-desription">
           <div class="contant-desription-name-date">
             <h2>{{ user.name }}</h2>
-            <p>{{ user.date | date: "mediumDate" || "" }}</p>
+            <small>{{ user.date | date: "short" || "" }}</small>
           </div>
           <p class="contant-desription-message">
             {{ user.lastmessage || "" }}

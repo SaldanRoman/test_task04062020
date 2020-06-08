@@ -46,7 +46,9 @@
       </div>
       <div
         class="dialog-text"
-        [ngStyle]="{ 'text-align': dialog.isoutput == true ? 'right' : 'left' }"
+        [ngStyle]="{
+          'align-items': dialog.isoutput == true ? 'flex-end' : 'flex-start'
+        }"
       >
         <p
           [ngClass]="{

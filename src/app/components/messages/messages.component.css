@@ -35,6 +35,8 @@
 .dialog-text {
     padding: 0 10px;
     max-width: 60%;
+    display: flex;
+    flex-direction: column;
 }
 
 .dialog-text p{
