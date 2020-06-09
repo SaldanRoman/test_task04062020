@@ -1,0 +1,55 @@
+<div class="chats-user">
+  <div class="user-avatar--wrapper">
+    <div class="user-avatar">
+      <img
+        class="user-avatar-img"
+        src="https://pickaface.net/gallery/avatar/20151205_194059_2696_Chat.png"
+        alt="Avatar"
+      />
+    </div>
+    <span [class]="['user-status', 'user-status-online']"></span>
+  </div>
+</div>
+<div class="chats-search">
+  <label>
+    <img src="../assets/img/svg/search-solid.svg" alt="search" />
+    <input
+      type="text"
+      placeholder="Search or start new chat"
+      [(ngModel)]="search"
+    />
+  </label>
+</div>
+<h1>Chats</h1>
+<div class="chats-contacts">
+  <div
+    *ngFor="let user of users | searchContact: search"
+    class="contact"
+    [routerLink]="['/im', user.logName]"
+    routerLinkActive="active"
+  >
+    <div class="contact-avatar--wrapper">
+      <div class="contact-avatar">
+        <img class="contact-avatar-img" [src]="user.avatarUrl" alt="Avatar" />
+      </div>
+      <span
+        [ngClass]="{
+          'contact-status': true,
+          'contact-status-online': user.status === 'online',
+          'contact-status-offline': user.status !== 'online'
+        }"
+      ></span>
+    </div>
+    <div class="contant-info">
+      <div class="contant-info-desription">
+        <h2 class="contant-info-desription-name">{{ user.name }}</h2>
+        <small class="contant-info-desription-date">{{
+          user.date | date: "short" || ""
+        }}</small>
+      </div>
+      <p class="contant-info-message">
+        {{ user.lastMessage || "" }}
+      </p>
+    </div>
+  </div>
+</div>

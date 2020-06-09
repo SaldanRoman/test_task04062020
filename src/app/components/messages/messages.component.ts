@@ -2,12 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import {
-  MessagesService,
-  User,
-  Dialog,
-} from 'src/app/services/messages.service';
+import { MessagesService, Dialog } from 'src/app/services/messages.service';
 import { AnswersService, Answer } from 'src/app/services/answers.service';
+import { UsersService, User } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-messages',
@@ -20,13 +17,14 @@ export class MessagesComponent implements OnInit {
   dialog: Dialog[] = [];
   user: User = {
     name: 'Not found',
-    avatarurl: '',
-    logname: '',
+    avatarUrl: '',
+    logName: '',
   };
 
   constructor(
     private route: ActivatedRoute,
     private messagesService: MessagesService,
+    private usersService: UsersService,
     private router: Router,
     private answerService: AnswersService
   ) {}
@@ -38,8 +36,8 @@ export class MessagesComponent implements OnInit {
 
     this.route.params
       .pipe(
-        switchMap((logname) => {
-          return this.messagesService.getUser(logname.contact);
+        switchMap((logName) => {
+          return this.usersService.getCurentUser(logName.contact);
         })
       )
       .subscribe((res: Array<User>) => {
@@ -69,7 +67,7 @@ export class MessagesComponent implements OnInit {
     const message: Dialog = {
       value: this.form.value.message,
       date: new Date(),
-      isoutput: true,
+      isOutput: true,
     };
     this.dialog.push(message);
     this.updateDialog();
@@ -79,11 +77,11 @@ export class MessagesComponent implements OnInit {
   }
 
   answer() {
-    this.answerService.randonJoke().subscribe((res: Answer) => {
+    this.answerService.randomJoke().subscribe((res: Answer) => {
       const answer: Dialog = {
         value: res.value,
         date: new Date(),
-        isoutput: false,
+        isOutput: false,
       };
       this.dialog.push(answer);
       this.updateDialog();
@@ -101,11 +99,11 @@ export class MessagesComponent implements OnInit {
   }
 
   updateContact() {
-    this.user.lastmessage = this.dialog[this.dialog.length - 1].value;
+    this.user.lastMessage = this.dialog[this.dialog.length - 1].value;
     this.user.date = this.dialog[this.dialog.length - 1].date;
 
-    this.messagesService.putToUser(this.user.id, this.user).subscribe(() => {
-      this.messagesService.subj$.next();
+    this.usersService.putToCurentUser(this.user.id, this.user).subscribe(() => {
+      this.messagesService.subj$.next(this.user);
     });
   }
 

@@ -1,20 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-export interface User {
-  avatarurl: string;
-  name: string;
-  logname: string;
-  lastmessage?: string;
-  id?: string;
-  date?: Date;
-}
+import { User } from './users.service';
 
 export interface Dialog {
   value: string;
-  isoutput?: boolean;
+  isOutput?: boolean;
   date: Date;
 }
 
@@ -23,36 +14,14 @@ export interface Dialog {
 })
 export class MessagesService {
   constructor(private http: HttpClient) {}
-  subj$ = new Subject();
-  static url = 'https://reenbit-test-task.firebaseio.com';
-
-  getUser(logname: string = '') {
-    return this.http.get(`${MessagesService.url}/users.json`).pipe(
-      map((user) => {
-        return Object.keys(user)
-          .map((key) => {
-            return { ...user[key], id: key };
-          })
-          .filter((user) => {
-            if (logname.trim() === '') {
-              return user;
-            } else {
-              return user.logname === logname;
-            }
-          });
-      })
-    );
-  }
+  subj$ = new Subject<User>();
+  static url = 'https://reenbit-test-task.firebaseio.com/dialogs';
 
   getDialog(id: string) {
-    return this.http.get(`${MessagesService.url}/dialogs/${id}.json`);
-  }
-
-  putToUser(id: string, user: User) {
-    return this.http.put(`${MessagesService.url}/users/${id}.json`, user);
+    return this.http.get(`${MessagesService.url}/${id}.json`);
   }
 
   putToDialogs(id: string, dialog: Array<Dialog>) {
-    return this.http.put(`${MessagesService.url}/dialogs/${id}.json`, dialog);
+    return this.http.put(`${MessagesService.url}/${id}.json`, dialog);
   }
 }

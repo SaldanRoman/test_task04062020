@@ -17,7 +17,7 @@ export interface Answer {
 export class AnswersService {
   constructor(private http: HttpClient) {}
 
-  randonJoke() {
+  randomJoke() {
     return this.http.get('https://api.chucknorris.io/jokes/random');
   }
 }

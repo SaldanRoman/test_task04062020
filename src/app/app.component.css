@@ -1,113 +1,26 @@
+.container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1000px;
+    width: 100%;
+    display: flex;
+    background-color: #F5F5F5;
+    overflow: hidden;
+    height: 100vh;
+}
+
+
 .chats {
     width: 35%;
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid #cacaca;
+}
+
+app-contacts {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-}
-
-.chats-user {
-    width: 90%;
-    padding: 15px 0;
-}
-
-.chats-search {
-    width: 90%;
-    padding: 15px 0;
-}
-
-.chats-search form label {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid var(--border-color);
-    border-radius: 40px;
-}
-
-.chats-search form label input {
-    margin-left: 5px;
-    border: none;
-    outline: none;
-    font-size: .9rem;
-}
-
-.chats h1 {
-    border-top: 1px solid var(--border-color);
-    color: #4495B4;
-    background-color: #fff;
-    width: 100%;
-    margin: 0;
-    padding: 15px 10px;
-    font-size: 1.2rem;
-}
-
-.chats-contacts {
-    width: 100%;
-    background-color: #fff;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     height: 100%;
-}
-
-.contact {
-    padding: 5px;
-    cursor: pointer;
-    outline: none;
-    display: flex;
-    width: 95%;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.contact:hover {
-    transition: .2s;
-    background-color: var(--background-color);
-}
-
-.contact.active {
-    background-color: var(--background-color)
-}
-
-.contant-desription {
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-}
-
-
-
-.contant-desription-name-date {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 0 5px 0;
-}
-
-.contant-desription-name-date h2{
-    font-size: 1rem;
-    font-weight: normal;
-    color: var(--main-name-color);
-}
-
-.contant-desription-name-date p{
-    font-size: .9rem;
-    color: var(--main-text-color);
-}
-
-p.contant-desription-message {
-
-    font-size: .75rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-clamp: 2;
-    width: 70%;
-    color: var(--main-text-color);
 }
 
 .messages {
@@ -117,25 +30,4 @@ p.contant-desription-message {
     justify-content: center;
     background-color: #fff;
     height: 100%;
-}
-
-.chats-contacts::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-
-.chats-contacts::-webkit-scrollbar {
-    width: 3px;
-}
-
-.chats-contacts::-webkit-scrollbar-thumb {
-    background-color: transparent;
-
-}
-
-.chats-contacts:hover.chats-contacts::-webkit-scrollbar-track {
-    background-color: #d3d3d3;    
-}
-
-.chats-contacts:hover.chats-contacts::-webkit-scrollbar-thumb {
-    background-color: #919191;
 }

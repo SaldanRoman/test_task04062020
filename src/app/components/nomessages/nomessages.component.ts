@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-nomessages',
-  templateUrl: './nomessages.component.html',
-  styleUrls: ['./nomessages.component.css']
+  selector: 'app-noMessages',
+  templateUrl: './noMessages.component.html',
+  styleUrls: ['./noMessages.component.css'],
 })
-export class NomessagesComponent implements OnInit {
+export class NoMessagesComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
