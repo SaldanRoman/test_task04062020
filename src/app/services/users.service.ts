@@ -23,6 +23,9 @@ export class UsersService {
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${UsersService.url}.json`).pipe(
       map((user) => {
+        console.log(
+          Object.keys(user).map((key) => ({ ...user[key], id: key }))
+        );
         return Object.keys(user).map((key) => ({ ...user[key], id: key }));
       })
     );
