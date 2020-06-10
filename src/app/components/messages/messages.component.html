@@ -8,8 +8,8 @@
           alt="Avatar"
         />
         <span
+          class="messages-contact-status"
           [ngClass]="{
-            'messages-contact-status': true,
             'messages-contact-status-online': user.status === 'online',
             'messages-contact-status-offline': user.status !== 'online'
           }"
