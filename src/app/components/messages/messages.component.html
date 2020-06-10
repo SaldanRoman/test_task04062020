@@ -25,8 +25,8 @@
   <div class="messages-dialog" #messagesDialogScroll>
     <div
       *ngFor="let dialog of dialog"
+      class="dialog"
       [ngClass]="{
-        'dialog': true,
         'dialog-in': !dialog.isOutput,
         'dialog-out': dialog.isOutput
       }"
@@ -37,16 +37,16 @@
         </div>
       </div>
       <div
+        class="dialog-text"
         [ngClass]="{
-          'dialog-text': true,
           'dialog-text-in': !dialog.isOutput,
           'dialog-text-out': dialog.isOutput
         }"
       >
         <p
           [ngClass]="{
-            'out': dialog.isOutput == true,
-            'in': !dialog.isOutput == true
+            out: dialog.isOutput == true,
+            in: !dialog.isOutput == true
           }"
         >
           {{ dialog.value }}

@@ -9,7 +9,7 @@ import { UsersService, User } from 'src/app/services/users.service';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.css'],
+  styleUrls: ['./messages.component.scss'],
 })
 export class MessagesComponent implements OnInit {
   @ViewChild('messagesDialogScroll', { static: true }) scrollFrame: ElementRef;
@@ -45,18 +45,16 @@ export class MessagesComponent implements OnInit {
           this.router.navigate(['/']);
         }
         this.user = res[0];
-        this.messagesService
-          .getDialog(res[0].id)
-          .subscribe((res: Array<Dialog>) => {
-            if (!res) {
-              this.dialog = [];
-            } else {
-              this.dialog = res;
-              setTimeout(() => {
-                this.scrollToBottom();
-              }, 10);
-            }
-          });
+        this.messagesService.getDialog(res[0].id).subscribe((res: Dialog[]) => {
+          if (!res) {
+            this.dialog = [];
+          } else {
+            this.dialog = res;
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 10);
+          }
+        });
       });
   }
 
@@ -103,7 +101,7 @@ export class MessagesComponent implements OnInit {
     this.user.date = this.dialog[this.dialog.length - 1].date;
 
     this.usersService.putToCurentUser(this.user.id, this.user).subscribe(() => {
-      this.messagesService.subj$.next(this.user);
+      this.usersService.updateUserSubscription$.next(this.user);
     });
   }
 

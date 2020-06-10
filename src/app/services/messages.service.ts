@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { User } from './users.service';
+import { Observable } from 'rxjs';
 
 export interface Dialog {
   value: string;
@@ -14,14 +13,13 @@ export interface Dialog {
 })
 export class MessagesService {
   constructor(private http: HttpClient) {}
-  subj$ = new Subject<User>();
   static url = 'https://reenbit-test-task.firebaseio.com/dialogs';
 
-  getDialog(id: string) {
-    return this.http.get(`${MessagesService.url}/${id}.json`);
+  getDialog(id: string): Observable<Dialog[]> {
+    return this.http.get<Dialog[]>(`${MessagesService.url}/${id}.json`);
   }
 
-  putToDialogs(id: string, dialog: Array<Dialog>) {
+  putToDialogs(id: string, dialog: Dialog[]) {
     return this.http.put(`${MessagesService.url}/${id}.json`, dialog);
   }
 }

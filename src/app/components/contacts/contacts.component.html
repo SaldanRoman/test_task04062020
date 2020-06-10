@@ -3,7 +3,7 @@
     <div class="user-avatar">
       <img
         class="user-avatar-img"
-        src="https://pickaface.net/gallery/avatar/20151205_194059_2696_Chat.png"
+        src="../../../assets/img/png/User.png"
         alt="Avatar"
       />
     </div>
@@ -33,8 +33,8 @@
         <img class="contact-avatar-img" [src]="user.avatarUrl" alt="Avatar" />
       </div>
       <span
+        class="contact-status"
         [ngClass]="{
-          'contact-status': true,
           'contact-status-online': user.status === 'online',
           'contact-status-offline': user.status !== 'online'
         }"

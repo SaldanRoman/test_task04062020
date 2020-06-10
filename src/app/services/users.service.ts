@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 export interface User {
   avatarUrl: string;
@@ -18,14 +18,13 @@ export interface User {
 })
 export class UsersService {
   static url = 'https://reenbit-test-task.firebaseio.com/users';
+  updateUserSubscription$ = new Subject<User>();
+
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${UsersService.url}.json`).pipe(
-      map((user) => {
-        console.log(
-          Object.keys(user).map((key) => ({ ...user[key], id: key }))
-        );
+      map((user: User[]) => {
         return Object.keys(user).map((key) => ({ ...user[key], id: key }));
       })
     );
@@ -33,7 +32,7 @@ export class UsersService {
 
   getCurentUser(logName: string): Observable<User[]> {
     return this.http.get<User[]>(`${UsersService.url}.json`).pipe(
-      map((user) => {
+      map((user: User[]) => {
         return Object.keys(user)
           .map((key) => ({ ...user[key], id: key }))
           .filter((user) => user.logName === logName);
