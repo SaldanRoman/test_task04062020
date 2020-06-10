@@ -50,10 +50,10 @@ describe('SearchContactPipe', () => {
   ];
 
   it('should return fitred arrey of Users', () => {
-    expect(pipe.transform(users, 'Roma')).toBeTruthy(filtredArray);
+    expect(pipe.transform(users, 'Roma')).toEqual(filtredArray);
   });
 
   it('should return arrey of Users', () => {
-    expect(pipe.transform(users, '')).toBeTruthy(users);
+    expect(pipe.transform(users, '')).toEqual(users);
   });
 });
